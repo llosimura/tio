@@ -42,12 +42,12 @@ class Mactor
     # Setters
     def new_actor(actor)
        # El método recibe como parámetro un objeto de tipo Actor
-       @actor << actor
+       @actor_list << actor
     end
     
     def new_objective(objective)
       # El método recibe como parámetro un objeto de tipo Objective
-      @objective << objective
+      @objective_list << objective
     end
     
     def new_actor_list(actor_list)
@@ -93,10 +93,28 @@ class Mactor
       return @mao  
     end
   
-    # Cálculo de funciones de output
+    ###################################
+    # Cálculo de funciones de output  #
+    ###################################
+    
     def get_MIDI()
       # Matriz de Influencias Directas e Indirectas
-      return 0
+      midi = Array.new(@actor_list.size + 1) { Array.new(@actor_list.size + 1)}
+      @actor_list.size.times do |i|
+        @actor_list.size.times do |j|
+          midi[i][j] = @mid[i][j]
+        end
+      end
+      # Cálculo de Di
+      for i in 1..@actor_list.size do
+        midi[-1][i] = "Di"
+      end
+      # Cálculo de Ii
+      for i in 1..@actor_list.size do
+        midi[i][-1] = "li"
+      end
+      # Valor de retorno
+      return midi
     end
     def get_IFV()
       # Informe de Fuerza bajo forma de Vector

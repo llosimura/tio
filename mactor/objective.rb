@@ -9,5 +9,13 @@
 =end
 
 class Objective
-  attr_accessible :number, :long_title, :short_title, :game, :description
+  attr_accessor :id, :long_title, :short_title, :game, :description
+  
+  def initialize(id, long_title, short_title, game, description)
+    @id = id
+    @long_title = long_title
+    @short_title = short_title
+    @game = game
+    @description = description
+  end
 end

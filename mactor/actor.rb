@@ -9,4 +9,11 @@
 
 class Actor
   attr_accessor :id, :long_title, :short_title, :description
+  
+  def initialize(id, long_title, short_title, description)
+    @id = id
+    @long_title = long_title
+    @short_title = short_title
+    @description = description
+  end
 end
