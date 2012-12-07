@@ -1,30 +1,29 @@
 # coding: utf-8
 require 'sinatra'
 
-pepe = 1
-
 get '/' do
-	haml :actors
+  haml :actors
 end
 
 =begin
   Fase1: Creación de la lista de actores
 =end 
 post '/fase1' do
-	puts params[:actor]
-	haml :index if params[:actors].nil?
+  puts params[:actors].inspect
+  prueba = params[:actors].clone
+  prueba.each_pair do |id, properties|
+  	puts id
+  end
 end
 
 =begin
    Fase2: Creación de la lista de objetivos
 =end
-get '/fase2' do
-	pepe = 3
+post '/fase2' do
 end
 
 
-get '/fase3' do
-	puts "la variables es #{pepe}"
+post '/fase3' do
 end
 
 post '/fase4' do

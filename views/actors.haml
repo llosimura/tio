@@ -1,10 +1,10 @@
 %h1 Actores
 %form.custom{:action => "/fase1", :method => "POST"}
-  %ul
+  %ul.actores
     -2.times do |i|  
       %li
-        %label{:for => "actor[#{i}][long_label]"} Label:
-        %input{:type => "text", :name => "actor[#{i}][long_label]", :class => "text"}
-        %label{:for => "actor[#{i}][short_label]"} Short Label:
-        %input{:type => "text", :name => "actor[#{i}][short_label]", :class => "text"}        
-  %input.radius.button{:type => "submit", :name => "throw", :value => "Throw"}
+        %label{:for => "actors[#{i}][long_label]"} Label:
+        %input{:type => "text", :name => "actors[#{i}][long_label]", :class => "text"}
+        %label{:for => "actors[#{i}][short_label]"} Short Label:
+        %input{:type => "text", :name => "actors[#{i}][short_label]", :class => "text"}        
+  %input.radius.button{:type => "submit", :name => "throw", :value => "Siguiente"}
