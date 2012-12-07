@@ -16,6 +16,10 @@
     - set_2MAO()
     - set_MID()
    Output 
+    - get_MIDI()
+    - get_IFV()
+    - get_MMIDI()
+    - get_IFMV()
     - get_1MAO()
     - get_3MAO()
     - get_1CAA()
@@ -98,7 +102,9 @@ class Mactor
     ###################################
     
     def get_MIDI()
-      # Matriz de Influencias Directas e Indirectas
+=begin
+      Matriz de Influencias Directas e Indirectas
+=end
       iterations = @actor_list.size
       midi = Array.new(iterations + 1) { Array.new(iterations + 1)}
       iterations.times do |a|
@@ -134,21 +140,108 @@ class Mactor
       # Valor de retorno
       return midi
     end
+    
     def get_IFV()
-      # Informe de Fuerza bajo forma de Vector
-      return 0
+=begin
+      Informe de Fuerza bajo forma de Vector
+=end
+      midi = self.get_MIDI
+      ifv = []
+      iterations = @actor_list.size
+      iterations.times do |a|
+        # FORMULA INCORRECTA
+        r = ( (midi[a][-1] - midi[a][a]) / midi[a][-1] ) * ( midi[a][-1] / (midi[a][-1] + midi[-1][a]) )
+        ifv << r
+      end
+      return ifv
     end
+    
     def get_MMIDI()
-      # Matriz de Máxima Influencia Directa e Indirecta
-      return 0
+=begin
+      Matriz de Máxima Influencia Directa e Indirecta
+=end
+      iterations = @actor_list.size
+      mmidi = Array.new(iterations + 1) { Array.new(iterations + 1) }
+      iterations.times do |a|
+        iterations.times do |b|    
+          # Para cada una de las casillas...
+        end
+      end
+      return mmidi
     end
+    
     def get_IFMV()
-      # Informe de Fuerza Máxima bajo forma de Vector
+=begin
+      Informe de Fuerza Máxima bajo forma de Vector
+=end
       return 0
     end
+    
     # Relación entre actores y objetivos
     def get_1MAO()
-      return 0
+=begin
+      Matriz 1MAO
+=end
+      cols = @objective_list.size
+      rows = @actor_list.size
+      onemao = Array.new(rows+3) {Array.new(cols + 1)}
+      # Cálculo del contenido
+      rows.times do |a|
+        cols.times do |b|
+          if (@mao[a][b] > 0)
+            onemao[a][b] = 1
+          elsif (@mao[a][b] == 0)
+            onemao[a][b] = 0
+          else
+            onemao[a][b] = -1
+          end 
+        end
+      end
+      # Cálculo de la columna 'Suma absoluta'
+      rows.times do |a|
+        sum = 0
+        cols.times do |b|
+          if onemao[a][b] != 0
+            sum += 1
+          end
+        end
+        onemao[a][-1] = sum
+      end
+      # Cálculo de las filas inferiores
+      # Número de acuerdos
+      row = @actor_list.size
+      cols.times do |b|
+         sum = 0
+         rows.times do |a|
+           if (onemao[a][b] == 1)
+             sum += 1
+           end
+         end
+         onemao[row][b] = sum
+      end
+      # Número de desacuerdos
+      row += 1
+      cols.times do |b|
+         sum = 0
+         rows.times do |a|
+           if (onemao[a][b] == -1)
+             sum -= 1
+           end
+         end
+         onemao[row][b] = sum
+      end
+      # Número de posiciones
+      row += 1
+      cols.times do |b|
+         sum = 0
+         rows.times do |a|
+           if (onemao[a][b] == 1) or (onemao[a][b] == -1)
+             sum += 1
+           end
+         end
+         onemao[row][b] = sum
+      end
+      return onemao
     end
     def get_3MAO()
       return 0
