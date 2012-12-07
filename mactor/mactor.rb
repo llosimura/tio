@@ -34,8 +34,8 @@ class Mactor
     def initialize()
       @actor_list = []
       @objective_list = []
-      @mao = null
-      @mid = null
+      @mao = nil
+      @mid = nil
     end
     
   public
@@ -48,6 +48,16 @@ class Mactor
     def new_objective(objective)
       # El método recibe como parámetro un objeto de tipo Objective
       @objective << objective
+    end
+    
+    def new_actor_list(actor_list)
+      # El método recibe como parámetro una lista de objetos Actor
+      @actor_list = actor_list
+    end
+    
+    def new_objective_list(objective_list)
+      # El método recibe como parámetro una lista de objetos Objective
+      @objective_list = objective_list
     end
     
     def new_2MAO(mao)
@@ -84,12 +94,30 @@ class Mactor
     end
   
     # Cálculo de funciones de output
+    def get_MIDI()
+      # Matriz de Influencias Directas e Indirectas
+      return 0
+    end
+    def get_IFV()
+      # Informe de Fuerza bajo forma de Vector
+      return 0
+    end
+    def get_MMIDI()
+      # Matriz de Máxima Influencia Directa e Indirecta
+      return 0
+    end
+    def get_IFMV()
+      # Informe de Fuerza Máxima bajo forma de Vector
+      return 0
+    end
+    # Relación entre actores y objetivos
     def get_1MAO()
       return 0
     end
     def get_3MAO()
       return 0
     end
+    # Convergencia entre actores y objetivos
     def get_1CAA()
       return 0
     end
@@ -99,6 +127,7 @@ class Mactor
     def get_3CAA()
       return 0
     end
+    # Divergencia entre actores y objetivos
     def get_1DAA()
       return 0
     end
@@ -108,6 +137,7 @@ class Mactor
     def get_3DAA()
       return 0
     end
+    # Ambigüedades del actor
     def get_ambivalence()
       return 0
     end 
