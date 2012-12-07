@@ -99,20 +99,38 @@ class Mactor
     
     def get_MIDI()
       # Matriz de Influencias Directas e Indirectas
-      midi = Array.new(@actor_list.size + 1) { Array.new(@actor_list.size + 1)}
-      @actor_list.size.times do |i|
-        @actor_list.size.times do |j|
-          midi[i][j] = @mid[i][j]
+      iterations = @actor_list.size
+      midi = Array.new(iterations + 1) { Array.new(iterations + 1)}
+      iterations.times do |a|
+        iterations.times do |b|
+          mid_ab = @mid[a][b]
+          sum = 0
+          iterations.times do |c|
+            sum += [@mid[a][c], @mid[c][b]].min
+          end
+          midi[a][b] = mid_ab + sum
         end
       end
       # Cálculo de Di
-      for i in 1..@actor_list.size do
-        midi[-1][i] = "Di"
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += midi[b][a]
+        end
+        midi[-1][a] = sum - midi[a][a]
       end
       # Cálculo de Ii
-      for i in 1..@actor_list.size do
-        midi[i][-1] = "li"
+      last = 0
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += midi[a][b]
+        end
+        midi[a][-1] = sum - midi[a][a]
+        last += midi[a][-1]
       end
+      # Cálculo del último valor
+      midi[-1][-1] = last
       # Valor de retorno
       return midi
     end
