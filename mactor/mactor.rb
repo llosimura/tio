@@ -5,9 +5,13 @@
   - Variables con nombres en minúscula separados por "_"
   - Nombre de funciones de input: new_<nombre_del_input>(input)
   - Nombre de funciones de output: get_<nombre_del_output>()
+ Atributos
+    - @actor_list: Lista de objetos Actor
+    - @objective_list: Lista de objetos Objective
+    - @mao: Matriz 2MAO
+    - @mid: Matri MID
  
  Lista de métodos
-  
    Input
     - set_2MAO()
     - set_MID()
@@ -63,6 +67,23 @@ class Mactor
   
   public
     # Getters
+    def get_actor_list()
+      return @actor_list
+    end
+    
+    def get_objective_list()
+      return @objective_list
+    end
+    
+    def get_MID()
+      return @mid
+    end
+    
+    def get_2MAO()
+      return @mao  
+    end
+  
+    # Cálculo de funciones de output
     def get_1MAO()
       return 0
     end
