@@ -30,6 +30,8 @@
     - get_3DAA()
     - get_ambivalence() 
 =end
+load 'utils.rb'
+
 class Mactor
   private
   
@@ -177,7 +179,7 @@ class Mactor
       return 0
     end
     
-    # Relación entre actores y objetivos
+  # Apartado de relación entre actores y objetivos
     def get_1MAO()
 =begin
       Matriz 1MAO
@@ -243,29 +245,158 @@ class Mactor
       end
       return onemao
     end
+    
     def get_3MAO()
       return 0
     end
-    # Convergencia entre actores y objetivos
+    
+    # Apartado de convergencia entre actores y objetivos
     def get_1CAA()
-      return 0
+      # Matrices necesarias para los calculos
+      mao = get_1MAO
+      # Eliminacion de filas y columnas de información extra
+      3.times do
+        mao.delete_at(-1)
+      end
+      mao.size.times do |i|
+        mao[i].delete_at(-1)
+      end
+      # Obtención de traspuesta y producto
+      moa = mao.transpose
+      maomoa = multiply(mao, moa)
+      # Creación de matriz de salida
+      rows = maomoa.size
+      cols = maomoa[0].size
+      caa = Array.new(rows+1) { Array.new(cols) }
+      # Cálculo de 1CAA
+      rows.times do |i|
+        cols.times do |j|
+          if (maomoa[i][j] > 0)
+            caa[i][j] = maomoa[i][j]
+          else
+            caa[i][j] = 0
+          end
+        end
+        caa[i][i] = 0
+      end
+      # Cálculo del número de convergencias
+      cols.times do |j|
+        caa[rows][j] = 0
+        rows.times do |k|
+          caa[rows][j] += caa[k][j] 
+        end
+      end
+      return caa
     end
+    
     def get_2CAA()
-      return 0
+      # Matrices necesarias para los calculos
+      mao = get_2MAO
+      # Obtención de traspuesta y producto
+      moa = mao.transpose
+      maomoa = multiply(mao, moa)
+      # Creación de matriz de salida
+      rows = maomoa.size
+      cols = maomoa[0].size
+      caa = Array.new(rows+1) { Array.new(cols) }
+      # Cálculo de 1CAA
+      rows.times do |i|
+        cols.times do |j|
+          if (maomoa[i][j] > 0)
+            caa[i][j] = maomoa[i][j]
+          else
+            caa[i][j] = 0
+          end
+        end
+        caa[i][i] = 0
+      end
+      # Cálculo del número de convergencias
+      cols.times do |j|
+        caa[rows][j] = 0
+        rows.times do |k|
+          caa[rows][j] += caa[k][j] 
+        end
+      end
+      return caa
     end
+    
     def get_3CAA()
       return 0
     end
-    # Divergencia entre actores y objetivos
+    
+    # Apartado de divergencia entre actores y objetivos
     def get_1DAA()
-      return 0
+      # Matrices necesarias para los calculos
+      mao = get_1MAO
+      # Eliminacion de filas y columnas de información extra
+      3.times do
+        mao.delete_at(-1)
+      end
+      mao.size.times do |i|
+        mao[i].delete_at(-1)
+      end
+      # Obtención de traspuesta y producto
+      moa = mao.transpose
+      maomoa = multiply(mao, moa)
+      # Creación de matriz de salida
+      rows = maomoa.size
+      cols = maomoa[0].size
+      daa = Array.new(rows+1) { Array.new(cols)}
+      # Cálculo de 1DAA
+      rows.times do |i|
+        cols.times do |j|
+          if (maomoa[i][j] < 0)
+            daa[i][j] = -maomoa[i][j]
+          else
+            daa[i][j] = 0
+          end
+        end
+        daa[i][i] = 0
+      end
+      # Cálculo del número de divergencias
+      cols.times do |j|
+        daa[rows][j] = 0
+        rows.times do |k|
+          daa[rows][j] += daa[k][j] 
+        end
+      end
+      return daa
     end
+    
     def get_2DAA()
-      return 0
+      # Matrices necesarias para los calculos
+      mao = get_2MAO
+      # Obtención de traspuesta y producto
+      moa = mao.transpose
+      maomoa = multiply(mao, moa)
+      # Creación de matriz de salida
+      rows = maomoa.size
+      cols = maomoa[0].size
+      daa = Array.new(rows+1) { Array.new(cols)}
+      # Cálculo de 1DAA
+      rows.times do |i|
+        cols.times do |j|
+          if (maomoa[i][j] < 0)
+            daa[i][j] = -maomoa[i][j]
+          else
+            daa[i][j] = 0
+          end
+        end
+        daa[i][i] = 0
+      end
+      # Cálculo del número de divergencias
+      cols.times do |j|
+        daa[rows][j] = 0
+        rows.times do |k|
+          daa[rows][j] += daa[k][j] 
+        end
+      end
+      return daa
     end
     def get_3DAA()
       return 0
     end
+    
     # Ambigüedades del actor
     def get_ambivalence()
       return 0

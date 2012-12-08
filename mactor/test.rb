@@ -46,12 +46,37 @@ mactor.new_MID(mid)
 
 # Testeo de metodos
 # MIDI
-#print "MIDI: \n", mactor.get_MIDI, "\n"
+
+print "MIDI: \n", mactor.get_MIDI, "\n"
+=begin
 # IFV - NO FUNCIONA
-#print "IFV: \n", mactor.get_IFV, "\n"
+print "IFV: \n", mactor.get_IFV, "\n"
 # MMIDI - NO FUNCIONA
-#print "MMIDI: \n" , mactor.get_MMIDI, "\n"
+print "MMIDI: \n" , mactor.get_MMIDI, "\n"
 # IFMV - NO FUNCIONA
-#print "IFMV: \n" , mactor.get_IFMV, "\n"
+print "IFMV: \n" , mactor.get_IFMV, "\n"
+=end
 # 1MAO
-print "1MAO: \n", mactor.get_1MAO, "\n"
+mao = mactor.get_1MAO
+3.times do
+        mao.delete_at(-1)
+      end
+mao.size.times do |i|
+        mao[i].delete_at(-1)
+      end
+moa = mao.transpose
+print "1MAO: \n", mao, "\n"
+# 2MAO
+print "2MAO: \n", mactor.get_2MAO, "\n"
+# Transpose
+print "Traspuesta 1MAO: \n", moa, "\n"
+# Multiply
+print "Multiplicacion 1MAOx1MOA: \n", multiply(mao, moa), "\n"
+# 1CAA
+print "1CAA: \n", mactor.get_1CAA, "\n"
+# 1DAA
+print "1DAA: \n", mactor.get_1DAA, "\n"
+# 2CAA
+print "2CAA: \n", mactor.get_2CAA, "\n"
+# 2DAA
+print "2DAA: \n", mactor.get_2DAA, "\n"
