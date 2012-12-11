@@ -1,8 +1,24 @@
 # coding: utf-8
 require 'sinatra'
+require 'json'
 
 get '/' do
   haml :actors
+end
+
+get '/service' do
+  haml :service, :locals => {:msg => "", :data => ""}
+end
+
+post '/service' do
+  begin  
+    pepe = params[:data].gsub(/(\w+)\s*:/, '"\1":')
+    data = JSON.parse(pepe)
+    puts data.inspect  
+    haml :service, :locals => {:msg => "", :data => ""}
+  rescue  
+    haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
+  end 
 end
 
 =begin
