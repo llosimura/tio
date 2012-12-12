@@ -9,6 +9,7 @@ end
   Fase1: Creación de la lista de actores
 =end 
 post '/fase1' do
+  puts params[:actors].inspect
   prueba = params[:actors].clone
   prueba.each_pair do |id, properties|
     properties.each_pair do |prop, val|

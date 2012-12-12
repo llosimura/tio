@@ -6,6 +6,6 @@
         %script{:type => "text/javascript", :src =>"/jquery.foundation.forms.js"}
         %script{:type => "text/javascript", :src =>"/jquery.foundation.alerts.js"}
     %body.row
-        %div.ten.columns.centered
+        %div.eight.columns.centered
             %h1 Método Mactor
             =yield

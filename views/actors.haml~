@@ -16,18 +16,14 @@
   $("#add").click(function(e) {
     e.preventDefault();
     ++cantidad;
-    item=
-    "<div class='row'>"+
-    "<div class='three columns'>"+
-    "<input class='text' name='actors["+cantidad+"][long_label]' placeholder='Etiqueta' type='text' />"+
-    "</div>"+
-    "<div class='three columns'>"+
-    "<input class='text' name='actors["+cantidad+"][short_label]' placeholder='Etiqueta Corta' type='text' />"+
-    "</div>"+
-    "<div class='six columns'>"+
-    "<input class='text' name='actors["+cantidad+"][description]' placeholder='Descripción' type='text' />"+
-    "</div>"+
-    "</div>";
+    item="<li>"+
+    "<label for='actors["+cantidad+"][long_label]'>Label:</label>"+
+    "<input class='text' name='actors["+cantidad+"][long_label]' type='text'>"+
+    "<label for='actors["+cantidad+"][short_label]'>Short Label:</label>"+
+    "<input class='text' name='actors["+cantidad+"][short_label]' type='text'>"+
+    "<label for='actors["+cantidad+"][description]'>Descripción:</label>"+
+    "<input class='text' name='actors["+cantidad+"][description]' type='text'>"+
+    "</li>";
     $("#actores").append(item)   
   });
   
