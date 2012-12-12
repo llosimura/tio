@@ -12,7 +12,9 @@ post '/fase1' do
   puts params[:actors].inspect
   prueba = params[:actors].clone
   prueba.each_pair do |id, properties|
-  	puts id
+    properties.each_pair do |prop, val|
+      puts "#{id}: #{prop} #{val}"
+    end
   end
 end
 
