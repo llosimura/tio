@@ -18,7 +18,7 @@ get '/service' do
 end
 
 post '/service' do
-  #begin  
+  begin  
     aux = params[:data].gsub(/(\w+)\s*:/, '"\1":')
     data = JSON.parse(aux)
     actors = data["actores"]
@@ -42,14 +42,15 @@ post '/service' do
        objectives_list << Objective.new(*data_list)
     end
     
-    #obtenemos la matriz MAO
+    
+#obtenemos la matriz MAO
     mao = data["2MAO"]
     mid = data["MID"]
 
     haml :service, :locals => {:msg => "", :data => ""}
-  #rescue  
-   # haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
-  #end 
+  rescue  
+    haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
+  end 
 end
 
 =begin

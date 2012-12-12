@@ -5,7 +5,7 @@
     %a.close &times
 %div
   %form.custom{:action => "/service", :method => "POST"}
-    %textarea{:placeholder => "Contenido en formato JSON", :name => "data"}
+    %textarea#json{:placeholder => "Contenido en formato JSON", :name => "data"}
     %input.radius.button{:type => "submit", :name => "calcular", :value => "Calcular Matrices"}
 
           
