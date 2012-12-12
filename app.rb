@@ -43,7 +43,7 @@ post '/service' do
     end
     
     #obtenemos la matriz MAO
-    2mao = data["2MAO"]
+    mao = data["2MAO"]
     mid = data["MID"]
 
     haml :service, :locals => {:msg => "", :data => ""}
