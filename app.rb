@@ -1,6 +1,13 @@
 # coding: utf-8
 require 'sinatra'
 require 'json'
+load 'mactor/actor.rb'
+load 'mactor/objective.rb'
+
+actors_list =[]
+objectives_list =[]
+mao = nil
+mid = nil
 
 get '/' do
   haml :actors
@@ -11,14 +18,38 @@ get '/service' do
 end
 
 post '/service' do
-  begin  
-    pepe = params[:data].gsub(/(\w+)\s*:/, '"\1":')
-    data = JSON.parse(pepe)
-    puts data.inspect  
+  #begin  
+    aux = params[:data].gsub(/(\w+)\s*:/, '"\1":')
+    data = JSON.parse(aux)
+    actors = data["actores"]
+    objectives = data["objetivos"]
+
+    #obtenemos los actores desde el JSON
+    actors.each do |a|
+       data_list = []
+       a.each_pair do |k,v|
+          data_list << v
+       end
+       actors_list << Actor.new(*data_list)
+    end
+
+    #obtenemos los objetivos desde el JSON
+    objectives.each do |o|
+       data_list = []
+       o.each_pair do |k,v|
+          data_list << v
+       end
+       objectives_list << Objective.new(*data_list)
+    end
+    
+    #obtenemos la matriz MAO
+    2mao = data["2MAO"]
+    mid = data["MID"]
+
     haml :service, :locals => {:msg => "", :data => ""}
-  rescue  
-    haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
-  end 
+  #rescue  
+   # haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
+  #end 
 end
 
 =begin
