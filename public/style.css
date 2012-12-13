@@ -6,3 +6,6 @@
    height: 400px;
 }
 
+#mao div.one,#midi div.one {
+  float: left !important;
+}

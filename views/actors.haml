@@ -1,8 +1,10 @@
 %h1 Actores
-%form.custom{:action => "/fase1", :method => "POST"}
+%form.custom{:action => "/", :method => "POST"}
   %div#actores
     %div.row
-      %div.three.columns
+     %div.one.columns
+        %input{:type => "text", :name => "actors[0]["id"]", :class => "text",  :placeholder => "id"}
+      %div.two.columns
         %input{:type => "text", :name => "actors[0][long_label]", :class => "text",  :placeholder => "Etiqueta"}
       %div.three.columns
         %input{:type => "text", :name => "actors[0][short_label]", :class => "text", :placeholder => "Etiqueta Corta"}

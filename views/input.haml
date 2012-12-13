@@ -1,0 +1,130 @@
+%h1 Inputs
+%dl.tabs
+  %dd.active
+    %a{:href => "#simple1"} Actores
+  %dd
+    %a{:href => "#simple2"} Objetivos
+  %dd
+    %a.addMaoTable{:href => "#simple3"} 2MAO
+  %dd
+    %a.addMidiTable{:href => "#simple4"} MIDI
+%form.custom{:action => "/genera", :method => "POST"}
+  %ul.tabs-content
+    %li.active#simple1Tab
+      %div#actores
+        %div.row
+          %div.one.columns
+            %input{:type => "text", :name => "actors[0][id]", :class => "text",  :placeholder => "id"}
+          %div.two.columns
+            %input{:type => "text", :name => "actors[0][long_label]", :class => "text",  :placeholder => "Etiqueta"}
+          %div.three.columns
+            %input{:type => "text", :name => "actors[0][short_label]", :class => "text", :placeholder => "Etiqueta Corta"}
+          %div.six.columns
+            %input{:type => "text", :name => "actors[0][description]", :class => "text", :placeholder => "Descripción"}                
+      %input.radius.button#addActors{:type => "button", :value => "Añadir Actor"}
+    %li#simple2Tab
+      %div#objetivos
+        %div.row
+          %div.one.columns
+            %input{:type => "text", :name => "objectives[0][id]", :class => "text",  :placeholder => "id"}
+          %div.two.columns
+            %input{:type => "text", :name => "objectives[0][long_label]", :class => "text",  :placeholder => "Etiqueta"}
+          %div.two.columns
+            %input{:type => "text", :name => "objectives[0][short_label]", :class => "text", :placeholder => "Etiqueta Corta"}
+          %div.three.columns
+            %input{:type => "text", :name => "objectives[0][game]", :class => "text", :placeholder => "Juego"}
+          %div.four.columns
+            %input{:type => "text", :name => "objectives[0][description]", :class => "text", :placeholder => "Descripción"}                
+      %input.radius.button#addObjectives{:type => "button", :value => "Añadir Objetivo"}
+    %li#simple3Tab
+      %div#mao
+      %input.radius.button.addMaoTable{:type => "button", :value => "Limpiar Matriz Mao"}
+    %li#simple4Tab
+      %div#midi
+      %input.radius.button#addMidiTable{:type => "button", :value => "Limpiar Matriz Midi"}
+      %input.radius.button{:type => "submit", :name => "end", :value => "Terminar"}
+:javascript
+  $(document).foundationTabs();
+  var cantidad_actores = 0;
+  var cantidad_objetivos = 0;
+  $("#addActors").click(function(e) {
+    e.preventDefault();
+    ++cantidad_actores;
+    item=
+    "<div class='row'>"+
+    "<div class='one columns'>"+
+    "<input class='text' name='actors["+cantidad_actores+"][id]' placeholder='id' type='text' />"+
+    "</div>"+
+    "<div class='two columns'>"+
+    "<input class='text' name='actors["+cantidad_actores+"][long_label]' placeholder='Etiqueta' type='text' />"+
+    "</div>"+
+    "<div class='three columns'>"+
+    "<input class='text' name='actors["+cantidad_actores+"][short_label]' placeholder='Etiqueta Corta' type='text' />"+
+    "</div>"+
+    "<div class='six columns'>"+
+    "<input class='text' name='actors["+cantidad_actores+"][description]' placeholder='Descripción' type='text' />"+
+    "</div>"+
+    "</div>";
+    $("#actores").append(item)   
+  });
+
+  $("#addObjectives").click(function(e) {
+    e.preventDefault();
+    ++cantidad_objetivos;
+    item=
+    "<div class='row'>"+
+    "<div class='one columns'>"+
+    "<input class='text' name='objectives["+cantidad_objetivos+"][id]' placeholder='id' type='text' />"+
+    "</div>"+
+    "<div class='two columns'>"+
+    "<input class='text' name='objectives["+cantidad_objetivos+"][long_label]' placeholder='Etiqueta' type='text' />"+
+    "</div>"+
+    "<div class='two columns'>"+
+    "<input class='text' name='objectives["+cantidad_objetivos+"][short_label]' placeholder='Etiqueta Corta' type='text' />"+
+    "</div>"+
+    "<div class='three columns'>"+
+    "<input class='text' name='objectives["+cantidad_objetivos+"][game]' placeholder='Juego' type='text' />"+
+    "</div>"+
+    "<div class='four columns'>"+
+    "<input class='text' name='objectives["+cantidad_objetivos+"][description]' placeholder='Descripción' type='text' />"+
+    "</div>"+
+    "</div>";
+    $("#objetivos").append(item)   
+  });
+  
+  $(".addMaoTable").click(function(e) {
+    e.preventDefault();
+    filas = cantidad_actores + 1;
+    columnas = cantidad_objetivos + 1;
+    item = "";
+    for (i = 0; i < filas; ++ i){
+      linea = "<div class='row centered'>"
+      for (j = 0; j < columnas; ++j) {
+         linea = linea + "<div class='one columns'>" +
+         "<input class='text' name='mao["+i+"]["+j+"]' type='text' /> </div>";
+      }
+      linea = linea + "</div>"
+      item = item + linea;
+    }
+    $("#mao").html(item);
+  });
+
+  $(".addMidiTable").click(function(e) {
+    e.preventDefault();
+    filas = cantidad_actores + 1;
+    columnas = cantidad_actores + 1;
+    item = "";
+    for (i = 0; i < filas; ++ i){
+      linea = "<div class='row centered'>"
+      for (j = 0; j < columnas; ++j) {
+         linea = linea + "<div class='one columns'>" +
+         "<input class='text' name='midi["+i+"]["+j+"]' type='text' /> </div>";
+      }
+      linea = linea + "</div>"
+      item = item + linea;
+    }
+    $("#midi").html(item);
+  });
+
+
+

@@ -1,11 +1,14 @@
 %h1 Introduce los datos en formato JSON
-- unless msg.empty?
+- if locals[:msg]
   %div.alert-box.alert
     %p #{msg}
     %a.close &times
 %div
   %form.custom{:action => "/service", :method => "POST"}
-    %textarea#json{:placeholder => "Contenido en formato JSON", :name => "data"}
+    - if locals[:fromHelper]
+      %textarea#json{:placeholder => "Contenido en formato JSON", :name => "data"} #{fromHelper}
+    - else
+      %textarea#json{:placeholder => "Contenido en formato JSON", :name => "data"}
     %input.radius.button{:type => "submit", :name => "calcular", :value => "Calcular Matrices"}
 
           
