@@ -41,16 +41,14 @@ post '/service' do
        end
        objectives_list << Objective.new(*data_list)
     end
-    
-    
-#obtenemos la matriz MAO
+    #obtenemos la matriz MAO
     mao = data["2MAO"]
     mid = data["MID"]
 
     haml :service, :locals => {:msg => "", :data => ""}
   rescue  
     haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
-  end 
+  end
 end
 
 =begin
