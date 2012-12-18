@@ -383,7 +383,7 @@ class Mactor
     
     # Refactorizacion
     def get_DAA(number)
-       # Matrices necesarias para los calculos
+          # Matrices necesarias para los calculos
       mao = nil
       case number
       when 1
@@ -393,7 +393,6 @@ class Mactor
       when 3
         mao = get_3MAO
       end
-      
       # Eliminacion de filas y columnas de información extra
       if (number == 1) || (number == 3)
         3.times do
@@ -403,20 +402,31 @@ class Mactor
           mao[i].delete_at(-1)
         end
       end
-      # Obtención de traspuesta y producto
-      moa = mao.transpose
-
+      # Valor absoluto de la matriz
+      maoabs = mao.map {|i| i.map {|j| j.abs}}
       # Creación de matriz de salida
       rows = mao.size
-      cols = mao[0].size
-      daa = Array.new(rows+1) { Array.new(cols)}
-      # Cálculo de DAA
+      cols = mao.size
+      objectives = mao[0].size
+      daa = Array.new(rows+1) { Array.new(cols) }
+      # Cálculo de 1CAA
       rows.times do |i|
         cols.times do |j|
-          
+          if i == j
+            daa[i][j] = 0.0
+          else
+            daa[i][j] = 0.0
+            objectives.times do |k|
+              if (mao[i][k] * mao[j][k] < 0)
+                daa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
+              else
+                daa[i][j] += 0
+              end
+            end
+          end
         end
       end
-      # Cálculo del número de divergencias
+      # Cálculo del número de convergencias
       cols.times do |j|
         daa[rows][j] = 0
         rows.times do |k|
