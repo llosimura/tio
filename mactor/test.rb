@@ -51,7 +51,7 @@ mactor.new_MID(mid)
 # IFV - NO FUNCIONA
 #print "IFV: \n", mactor.get_IFV, "\n"
 # MMIDI - NO FUNCIONA
-print "MMIDI: \n" , mactor.get_MMIDI, "\n"
+#print "MMIDI: \n" , mactor.get_MMIDI, "\n"
 # IFMV - NO FUNCIONA
 #print "IFMV: \n" , mactor.get_IFMV, "\n"
 # 1MAO
@@ -81,6 +81,6 @@ moa = mao.transpose
 # 3MAO
 #print "3MAO: \n", mactor.get_3MAO, "\n"
 # 2CAA
-#print "3CAA: \n", mactor.get_3CAA, "\n"
+print "3CAA: \n", mactor.get_3CAA, "\n"
 # 2DAA
 #print "3DAA: \n", mactor.get_3DAA, "\n"

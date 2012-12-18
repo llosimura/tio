@@ -310,34 +310,50 @@ class Mactor
       return threemao
     end
     
-    # Apartado de convergencia entre actores y objetivos
-    def get_1CAA()
+    # Refactorizacion de CAA
+    def get_CAA(number)
       # Matrices necesarias para los calculos
-      mao = get_1MAO
+      mao = nil
+      case number
+      when 1
+        mao = get_1MAO
+      when 2
+        mao = get_2MAO
+      when 3
+        mao = get_3MAO
+      end
       # Eliminacion de filas y columnas de información extra
-      3.times do
-        mao.delete_at(-1)
+      if (number == 1) || (number == 3)
+        3.times do
+          mao.delete_at(-1)
+        end
+        mao.size.times do |i|
+          mao[i].delete_at(-1)
+        end
       end
-      mao.size.times do |i|
-        mao[i].delete_at(-1)
-      end
-      # Obtención de traspuesta y producto
-      moa = mao.transpose
-      maomoa = multiply(mao, moa)
+      # Valor absoluto de la matriz
+      maoabs = mao.map {|i| i.map {|j| j.abs}}
       # Creación de matriz de salida
-      rows = maomoa.size
-      cols = maomoa[0].size
+      rows = mao.size
+      cols = mao.size
+      objectives = mao[0].size
       caa = Array.new(rows+1) { Array.new(cols) }
       # Cálculo de 1CAA
       rows.times do |i|
         cols.times do |j|
-          if (maomoa[i][j] > 0)
-            caa[i][j] = maomoa[i][j]
+          if i == j
+            caa[i][j] = 0.0
           else
-            caa[i][j] = 0
+            caa[i][j] = 0.0
+            objectives.times do |k|
+              if (mao[i][k] * mao[j][k] > 0)
+                caa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
+              else
+                caa[i][j] += 0
+              end
+            end
           end
         end
-        caa[i][i] = 0
       end
       # Cálculo del número de convergencias
       cols.times do |j|
@@ -349,44 +365,56 @@ class Mactor
       return caa
     end
     
+    # Apartado de convergencia entre actores y objetivos
+    def get_1CAA()
+      caa = get_CAA(1)
+      return caa
+    end
+    
     def get_2CAA()
-      caa = ""
+      caa = get_CAA(2)
       return caa
     end
     
     def get_3CAA()
-      caa = ""
+      caa = get_CAA(3)
       return caa
     end
     
-    # Apartado de divergencia entre actores y objetivos
-    def get_1DAA()
-      # Matrices necesarias para los calculos
-      mao = get_1MAO
-      # Eliminacion de filas y columnas de información extra
-      3.times do
-        mao.delete_at(-1)
+    # Refactorizacion
+    def get_DAA(number)
+       # Matrices necesarias para los calculos
+      mao = nil
+      case number
+      when 1
+        mao = get_1MAO
+      when 2
+        mao = get_2MAO
+      when 3
+        mao = get_3MAO
       end
-      mao.size.times do |i|
-        mao[i].delete_at(-1)
+      
+      # Eliminacion de filas y columnas de información extra
+      if (number == 1) || (number == 3)
+        3.times do
+          mao.delete_at(-1)
+        end
+        mao.size.times do |i|
+          mao[i].delete_at(-1)
+        end
       end
       # Obtención de traspuesta y producto
       moa = mao.transpose
-      maomoa = multiply(mao, moa)
+
       # Creación de matriz de salida
-      rows = maomoa.size
-      cols = maomoa[0].size
+      rows = mao.size
+      cols = mao[0].size
       daa = Array.new(rows+1) { Array.new(cols)}
-      # Cálculo de 1DAA
+      # Cálculo de DAA
       rows.times do |i|
         cols.times do |j|
-          if (maomoa[i][j] < 0)
-            daa[i][j] = -maomoa[i][j]
-          else
-            daa[i][j] = 0
-          end
+          
         end
-        daa[i][i] = 0
       end
       # Cálculo del número de divergencias
       cols.times do |j|
@@ -398,12 +426,19 @@ class Mactor
       return daa
     end
     
-    def get_2DAA()
-      daa = ""
+    # Apartado de divergencia entre actores y objetivos
+    def get_1DAA()
+      daa = get_DAA(1)
       return daa
     end
+    
+    def get_2DAA()
+      daa = get_DAA(2)
+      return daa
+    end
+    
     def get_3DAA()
-      daa = ""
+      daa = get_DAA(3)
       return daa
     end
     
