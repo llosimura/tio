@@ -75,7 +75,7 @@ moa = mao.transpose
 # 1DAA
 #print "1DAA: \n", mactor.get_1DAA, "\n"
 # 2CAA
-#print "2CAA: \n", mactor.get_2CAA, "\n"
+print "2CAA: \n", mactor.get_2CAA, "\n"
 # 2DAA
 #print "2DAA: \n", mactor.get_2DAA, "\n"
 # 3MAO
@@ -83,4 +83,4 @@ moa = mao.transpose
 # 2CAA
 print "3CAA: \n", mactor.get_3CAA, "\n"
 # 2DAA
-#print "3DAA: \n", mactor.get_3DAA, "\n"
+print "3DAA: \n", mactor.get_3DAA, "\n"

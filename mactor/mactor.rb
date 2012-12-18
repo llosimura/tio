@@ -19,16 +19,17 @@
     - get_MIDI()
     - get_IFV()
     - get_MMIDI()
-    - get_IFMV()
+    - get_IFMV() *FALTA
     - get_1MAO()
     - get_3MAO()
     - get_1CAA()
-    - get_2CAA()
+    - get_2CAA() 
     - get_3CAA()
     - get_1DAA()
-    - get_2DAA()
-    - get_3DAA()
-    - get_ambivalence() 
+    - get_2DAA() 
+    - get_3DAA() 
+    - get_ambivalence() *FALTA
+    - get_BNI() *FALTA
 =end
 load 'utils.rb'
 
@@ -305,9 +306,54 @@ class Mactor
       row += 1
       cols.times do |b|
         threemao[row][b] = threemao[row-1][b].abs + threemao[row-2][b]
-      end
-      
+      end      
       return threemao
+    end
+    
+    def add_LastRowCAA(caa, number)
+      # Calculo del valor del Grado de Convergencia para
+      # 2CAA y 3CAA
+      daa = nil
+      case number
+      when 2
+        daa = get_DAA(2)
+      when 3
+        daa = get_DAA(3)
+      end
+      numerador = 0
+      denominador = 0
+      
+      (caa.size).times do |i|
+        (caa[0].size).times do |j|
+          numerador += caa[i][j]
+          denominador += caa[i][j] + daa[i][j]
+        end
+      end
+      caa << (numerador/denominador * 100)
+      return caa
+    end
+    
+    def add_LastRowDAA(daa, number)
+      # Calculo del valor del Grado de Divergencia para
+      # 2DAA y 3DAA
+      caa = nil
+      case number
+      when 2
+        caa = get_CAA(2)
+      when 3
+        caa = get_CAA(3)
+      end
+      numerador = 0
+      denominador = 0
+      
+      (daa.size).times do |i|
+        (daa[0].size).times do |j|
+          numerador += daa[i][j]
+          denominador += caa[i][j] + daa[i][j]
+        end
+      end
+      daa << (numerador/denominador * 100)
+      return daa    
     end
     
     # Refactorizacion de CAA
@@ -373,11 +419,13 @@ class Mactor
     
     def get_2CAA()
       caa = get_CAA(2)
+      caa = add_LastRowCAA(caa, 2)
       return caa
     end
     
     def get_3CAA()
       caa = get_CAA(3)
+      caa = add_LastRowCAA(caa, 3)
       return caa
     end
     
@@ -444,11 +492,14 @@ class Mactor
     
     def get_2DAA()
       daa = get_DAA(2)
+      #print "2DAA PARA PASAR\n", daa, "\n"
+      daa = add_LastRowDAA(daa, 2)
       return daa
     end
     
     def get_3DAA()
       daa = get_DAA(3)
+      daa = add_LastRowDAA(daa, 3)
       return daa
     end
     
