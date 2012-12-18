@@ -150,10 +150,16 @@ class Mactor
       midi = self.get_MIDI
       ifv = []
       iterations = @actor_list.size
+      # Cálculo del vector sin normalizar
       iterations.times do |a|
-        # FORMULA INCORRECTA
-        r = ( (midi[a][-1] - midi[a][a]) / midi[a][-1] ) * ( midi[a][-1] / (midi[a][-1] + midi[-1][a]) )
+        r = ( (midi[a][-1] - midi[a][a]) / midi[-1][-1].to_f ) * ( midi[a][-1] / (midi[a][-1] + midi[-1][a]).to_f )
         ifv << r
+      end
+      # Normalización del vector
+      sum_r = 0
+      ifv.each { |a| sum_r += a}
+      ifv = ifv.map do |a|
+        (iterations * a) / sum_r.to_f      
       end
       return ifv
     end
@@ -164,10 +170,18 @@ class Mactor
 =end
       iterations = @actor_list.size
       mmidi = Array.new(iterations + 1) { Array.new(iterations + 1) }
-      iterations.times do |a|
-        iterations.times do |b|    
+      iterations.times do |i|
+        iterations.times do |j|    
           # Para cada una de las casillas...
+          num3 = 0
+          num4 = 0
+          iterations.times do |k|
+            num4 = [@mid[i][k], @mid[k][j]].min
+            num3 = [num3, num4].max
+          end
+          mmidi[i][j] = [@mid[i][j], num3].max
         end
+        mmidi[i][i] = 0
       end
       return mmidi
     end
@@ -247,7 +261,53 @@ class Mactor
     end
     
     def get_3MAO()
-      return 0
+      mao = get_2MAO
+      r = get_IFV
+      cols = mao[0].size
+      rows = mao.size
+      threemao = Array.new(rows+3) {Array.new(cols + 1)}
+      
+      # Calculo del contenido de la matriz y de la columna
+      # de movilización
+      rows.times do |i|
+        movilizacion = 0
+        cols.times do |j|
+          threemao[i][j] = r[i] * mao[i][j]
+          movilizacion += threemao[i][j].abs
+        end
+        threemao[i][-1] = movilizacion
+      end
+      
+      # Cálculo de las filas inferiores
+      # Número de acuerdos
+      row = @actor_list.size
+      cols.times do |b|
+         sum = 0
+         rows.times do |a|
+           if (threemao[a][b] > 0)
+             sum += threemao[a][b]
+           end
+         end
+         threemao[row][b] = sum
+      end
+      # Número de desacuerdos
+      row += 1
+      cols.times do |b|
+         sum = 0
+         rows.times do |a|
+           if (threemao[a][b] < 0)
+             sum += threemao[a][b]
+           end
+         end
+         threemao[row][b] = sum
+      end
+      # Grado de movilización
+      row += 1
+      cols.times do |b|
+        threemao[row][b] = threemao[row-1][b].abs + threemao[row-2][b]
+      end
+      
+      return threemao
     end
     
     # Apartado de convergencia entre actores y objetivos
@@ -290,38 +350,13 @@ class Mactor
     end
     
     def get_2CAA()
-      # Matrices necesarias para los calculos
-      mao = get_2MAO
-      # Obtención de traspuesta y producto
-      moa = mao.transpose
-      maomoa = multiply(mao, moa)
-      # Creación de matriz de salida
-      rows = maomoa.size
-      cols = maomoa[0].size
-      caa = Array.new(rows+1) { Array.new(cols) }
-      # Cálculo de 1CAA
-      rows.times do |i|
-        cols.times do |j|
-          if (maomoa[i][j] > 0)
-            caa[i][j] = maomoa[i][j]
-          else
-            caa[i][j] = 0
-          end
-        end
-        caa[i][i] = 0
-      end
-      # Cálculo del número de convergencias
-      cols.times do |j|
-        caa[rows][j] = 0
-        rows.times do |k|
-          caa[rows][j] += caa[k][j] 
-        end
-      end
+      caa = ""
       return caa
     end
     
     def get_3CAA()
-      return 0
+      caa = ""
+      return caa
     end
     
     # Apartado de divergencia entre actores y objetivos
@@ -364,37 +399,12 @@ class Mactor
     end
     
     def get_2DAA()
-      # Matrices necesarias para los calculos
-      mao = get_2MAO
-      # Obtención de traspuesta y producto
-      moa = mao.transpose
-      maomoa = multiply(mao, moa)
-      # Creación de matriz de salida
-      rows = maomoa.size
-      cols = maomoa[0].size
-      daa = Array.new(rows+1) { Array.new(cols)}
-      # Cálculo de 1DAA
-      rows.times do |i|
-        cols.times do |j|
-          if (maomoa[i][j] < 0)
-            daa[i][j] = -maomoa[i][j]
-          else
-            daa[i][j] = 0
-          end
-        end
-        daa[i][i] = 0
-      end
-      # Cálculo del número de divergencias
-      cols.times do |j|
-        daa[rows][j] = 0
-        rows.times do |k|
-          daa[rows][j] += daa[k][j] 
-        end
-      end
+      daa = ""
       return daa
     end
     def get_3DAA()
-      return 0
+      daa = ""
+      return daa
     end
     
     # Ambigüedades del actor
