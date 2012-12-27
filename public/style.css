@@ -9,3 +9,7 @@
 #mao div.one,#midi div.one {
   float: left !important;
 }
+
+.panel{
+	margin-top: 60px !important;
+}

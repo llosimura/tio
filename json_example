@@ -1,12 +1,20 @@
 {"actores" : 
     [
-    {"id" : "1" , "long_tittle" : "prueba", "short_tittle" : "prueba larga" , "description" : "description"  },
-    {"id" : "2" , "long_tittle" : "prueba2", "short_tittle" : "prueba larga2", "description" : "description" }
+    {"id" : "1", "long_tittle" : "Constructeurs", "short_tittle" : "Constr.", "description" : "Description des constructeurs"},
+    {"id" : "2", "long_tittle" : "Compagnies Regulieres", "short_tittle" : "Cies Regulieres", "description" : "Description des Compagnies Regulieres"},
+    {"id" : "3", "long_tittle" : "Compagnies Charter", "short_tittle" : "Cies Charter", "description" : "Description des Compagnies Charter"},
+    {"id" : "4", "long_tittle" : "Etat", "short_tittle" : "Etat", "description" : "Description de l'Etat"},
+    {"id" : "5", "long_tittle" : "Aeroport Paris", "short_tittle" : "AP", "description" :  "Description de Aeroport Paris"},
+    {"id" : "6", "long_tittle" : "Association Riverains", "short_tittle" : "Assoc. Riv.", "description" : "Description de lAssociation des Riverains"}
     ],
+
   "objetivos" :
     [
-    {"id" : "1" , "long_tittle" : "prueba", "short_tittle" : "prueba larga" , "game" : "game", "description" : "description"  },
-    {"id" : "2" , "long_tittle" : "prueba2", "short_tittle" : "prueba larga2", "game" : "game", "description" : "description" }
+    {"id" : "1", "long_tittle" : "Caracteristiques Avions","short_tittle" : "Car_avions", "game" : "a new topic", "description" :  "Descripion des Caracteristiques Avions"},
+    {"id" : "2", "long_tittle" : "Marche", "short_tittle" :"Marche",  "game" : "a new topic", "description" :  "Description du Marche"},
+    {"id" : "3", "long_tittle" : "Droits", "short_tittle" : "Droits", "game" : "a new topic", "description" : "Description des Droits"},
+    {"id" : "4", "long_tittle" : "Vols Organises", "short_tittle" : "Vols_Orga","game" : "a new topic", "description" : "Description des Vols Organises"},
+    {"id" : "5", "long_tittle" : "Normes sur le bruit", "short_tittle" : "Normes_Bru","game" : "a new topic", "description" : "Description ds Normes sur le bruit"}
     ],
    "2MAO" :
     [
