@@ -35,9 +35,170 @@ load 'utils.rb'
 
 class Mactor
   private
-  
+
+#####################################
+#    Refactorización de cálculos    #
+#####################################
+
+  def get_CAA(number)
+    # Matrices necesarias para los calculos
+    mao = nil
+    case number
+      when 1
+        mao = get_1MAO
+      when 2
+        mao = get_2MAO
+      when 3
+        mao = get_3MAO
+    end
+    # Eliminacion de filas y columnas de información extra
+    if (number == 1) || (number == 3)
+      3.times do
+        mao.delete_at(-1)
+      end
+      mao.size.times do |i|
+        mao[i].delete_at(-1)
+      end
+    end
+    # Valor absoluto de la matriz
+    maoabs = mao.map {|i| i.map {|j| j.abs}}
+    # Creación de matriz de salida
+    rows = mao.size
+    cols = mao.size
+    objectives = mao[0].size
+    caa = Array.new(rows+1) { Array.new(cols) }
+    # Cálculo de 1CAA
+    rows.times do |i|
+      cols.times do |j|
+        if i == j
+          caa[i][j] = 0.0
+        else
+          caa[i][j] = 0.0
+          objectives.times do |k|
+            if (mao[i][k] * mao[j][k] > 0)
+              caa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
+            else
+              caa[i][j] += 0
+            end
+          end
+        end
+      end
+    end
+    # Cálculo del número de convergencias
+    cols.times do |j|
+      caa[rows][j] = 0
+      rows.times do |k|
+        caa[rows][j] += caa[k][j]
+      end
+    end
+    return caa
+  end
+
+  def get_DAA(number)
+    # Matrices necesarias para los calculos
+    mao = nil
+    case number
+      when 1
+        mao = get_1MAO
+      when 2
+        mao = get_2MAO
+      when 3
+        mao = get_3MAO
+    end
+    # Eliminacion de filas y columnas de información extra
+    if (number == 1) || (number == 3)
+      3.times do
+        mao.delete_at(-1)
+      end
+      mao.size.times do |i|
+        mao[i].delete_at(-1)
+      end
+    end
+    # Valor absoluto de la matriz
+    maoabs = mao.map {|i| i.map {|j| j.abs}}
+    # Creación de matriz de salida
+    rows = mao.size
+    cols = mao.size
+    objectives = mao[0].size
+    daa = Array.new(rows+1) { Array.new(cols) }
+    # Cálculo de 1CAA
+    rows.times do |i|
+      cols.times do |j|
+        if i == j
+          daa[i][j] = 0.0
+        else
+          daa[i][j] = 0.0
+          objectives.times do |k|
+            if (mao[i][k] * mao[j][k] < 0)
+              daa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
+            else
+              daa[i][j] += 0
+            end
+          end
+        end
+      end
+    end
+    # Cálculo del número de convergencias
+    cols.times do |j|
+      daa[rows][j] = 0
+      rows.times do |k|
+        daa[rows][j] += daa[k][j]
+      end
+    end
+    return daa
+  end
+
+  def add_LastRowCAA(caa, number)
+    # Calculo del valor del Grado de Convergencia para
+    # 2CAA y 3CAA
+    daa = nil
+    case number
+      when 2
+        daa = get_DAA(2)
+      when 3
+        daa = get_DAA(3)
+    end
+    numerador = 0
+    denominador = 0
+
+    (caa.size).times do |i|
+      (caa[0].size).times do |j|
+        numerador += caa[i][j]
+        denominador += caa[i][j] + daa[i][j]
+      end
+    end
+    caa << (numerador/denominador * 100)
+    return caa
+  end
+
+  def add_LastRowDAA(daa, number)
+    # Calculo del valor del Grado de Divergencia para
+    # 2DAA y 3DAA
+    caa = nil
+    case number
+      when 2
+        caa = get_CAA(2)
+      when 3
+        caa = get_CAA(3)
+    end
+    numerador = 0
+    denominador = 0
+
+    (daa.size).times do |i|
+      (daa[0].size).times do |j|
+        numerador += daa[i][j]
+        denominador += caa[i][j] + daa[i][j]
+      end
+    end
+    daa << (numerador/denominador * 100)
+    return daa
+  end
+
   public
-    # Constructores
+############################
+#     Constructores        #
+############################
+
     def initialize()
       @actor_list = []
       @objective_list = []
@@ -46,7 +207,9 @@ class Mactor
     end
     
   public
-    # Setters
+############################
+#         Setters          #
+############################
     def new_actor(actor)
        # El método recibe como parámetro un objeto de tipo Actor
        @actor_list << actor
@@ -83,7 +246,9 @@ class Mactor
     end
   
   public
-    # Getters
+############################
+#         Getters          #
+############################
     def get_actor_list()
       return @actor_list
     end
@@ -100,9 +265,9 @@ class Mactor
       return @mao  
     end
   
-    ###################################
-    # Cálculo de funciones de output  #
-    ###################################
+###################################
+# Cálculo de funciones de output  #
+###################################
     
     def get_MIDI()
 =begin
@@ -309,107 +474,7 @@ class Mactor
       end      
       return threemao
     end
-    
-    def add_LastRowCAA(caa, number)
-      # Calculo del valor del Grado de Convergencia para
-      # 2CAA y 3CAA
-      daa = nil
-      case number
-      when 2
-        daa = get_DAA(2)
-      when 3
-        daa = get_DAA(3)
-      end
-      numerador = 0
-      denominador = 0
-      
-      (caa.size).times do |i|
-        (caa[0].size).times do |j|
-          numerador += caa[i][j]
-          denominador += caa[i][j] + daa[i][j]
-        end
-      end
-      caa << (numerador/denominador * 100)
-      return caa
-    end
-    
-    def add_LastRowDAA(daa, number)
-      # Calculo del valor del Grado de Divergencia para
-      # 2DAA y 3DAA
-      caa = nil
-      case number
-      when 2
-        caa = get_CAA(2)
-      when 3
-        caa = get_CAA(3)
-      end
-      numerador = 0
-      denominador = 0
-      
-      (daa.size).times do |i|
-        (daa[0].size).times do |j|
-          numerador += daa[i][j]
-          denominador += caa[i][j] + daa[i][j]
-        end
-      end
-      daa << (numerador/denominador * 100)
-      return daa    
-    end
-    
-    # Refactorizacion de CAA
-    def get_CAA(number)
-      # Matrices necesarias para los calculos
-      mao = nil
-      case number
-      when 1
-        mao = get_1MAO
-      when 2
-        mao = get_2MAO
-      when 3
-        mao = get_3MAO
-      end
-      # Eliminacion de filas y columnas de información extra
-      if (number == 1) || (number == 3)
-        3.times do
-          mao.delete_at(-1)
-        end
-        mao.size.times do |i|
-          mao[i].delete_at(-1)
-        end
-      end
-      # Valor absoluto de la matriz
-      maoabs = mao.map {|i| i.map {|j| j.abs}}
-      # Creación de matriz de salida
-      rows = mao.size
-      cols = mao.size
-      objectives = mao[0].size
-      caa = Array.new(rows+1) { Array.new(cols) }
-      # Cálculo de 1CAA
-      rows.times do |i|
-        cols.times do |j|
-          if i == j
-            caa[i][j] = 0.0
-          else
-            caa[i][j] = 0.0
-            objectives.times do |k|
-              if (mao[i][k] * mao[j][k] > 0)
-                caa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
-              else
-                caa[i][j] += 0
-              end
-            end
-          end
-        end
-      end
-      # Cálculo del número de convergencias
-      cols.times do |j|
-        caa[rows][j] = 0
-        rows.times do |k|
-          caa[rows][j] += caa[k][j] 
-        end
-      end
-      return caa
-    end
+
     
     # Apartado de convergencia entre actores y objetivos
     def get_1CAA()
@@ -429,60 +494,7 @@ class Mactor
       return caa
     end
     
-    # Refactorizacion
-    def get_DAA(number)
-          # Matrices necesarias para los calculos
-      mao = nil
-      case number
-      when 1
-        mao = get_1MAO
-      when 2
-        mao = get_2MAO
-      when 3
-        mao = get_3MAO
-      end
-      # Eliminacion de filas y columnas de información extra
-      if (number == 1) || (number == 3)
-        3.times do
-          mao.delete_at(-1)
-        end
-        mao.size.times do |i|
-          mao[i].delete_at(-1)
-        end
-      end
-      # Valor absoluto de la matriz
-      maoabs = mao.map {|i| i.map {|j| j.abs}}
-      # Creación de matriz de salida
-      rows = mao.size
-      cols = mao.size
-      objectives = mao[0].size
-      daa = Array.new(rows+1) { Array.new(cols) }
-      # Cálculo de 1CAA
-      rows.times do |i|
-        cols.times do |j|
-          if i == j
-            daa[i][j] = 0.0
-          else
-            daa[i][j] = 0.0
-            objectives.times do |k|
-              if (mao[i][k] * mao[j][k] < 0)
-                daa[i][j] += 0.5 * (maoabs[i][k] + maoabs[j][k])
-              else
-                daa[i][j] += 0
-              end
-            end
-          end
-        end
-      end
-      # Cálculo del número de convergencias
-      cols.times do |j|
-        daa[rows][j] = 0
-        rows.times do |k|
-          daa[rows][j] += daa[k][j] 
-        end
-      end
-      return daa
-    end
+
     
     # Apartado de divergencia entre actores y objetivos
     def get_1DAA()
@@ -506,5 +518,9 @@ class Mactor
     # Ambigüedades del actor
     def get_ambivalence()
       return 0
-    end 
+    end
+
+    def get_BNI()
+      return 0
+    end
 end
