@@ -31,7 +31,7 @@
     - get_ambivalence() *FALTA
     - get_BNI() *FALTA
 =end
-load 'utils.rb'
+#load 'utils.rb'
 
 class Mactor
   private

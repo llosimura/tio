@@ -1,22 +1,38 @@
 # coding: utf-8
 require 'sinatra'
 require 'json'
+load 'mactor/utils.rb'
 load 'mactor/actor.rb'
 load 'mactor/objective.rb'
+load 'mactor/mactor.rb'
 
 actors_list =[]
 objectives_list =[]
 mao = nil
 mid = nil
 
+=begin
+  Al acceder al index, mostramos la página de inicio
+  que nos permitirá rellenar el JSON a mano o por el 
+  contrario, seguir una serie de pasos para completarlo
+=end
 get '/' do
   haml :index
 end
 
+=begin
+  Una petición get sobre service, nos mostrará el cuadro
+  donde rellenaremos el JSON según las convenciones
+=end
 get '/service' do
   haml :service
 end
 
+=begin
+   Una petición post sobre service, evaluará el código y 
+   nos permitirá aplicar los métodos incluidos en la clase
+   mactor para procesar los datos y mostrar los resultados
+=end
 post '/service' do
   begin  
     aux = params[:data].gsub(/(\w+)\s*:/, '"\1":')
@@ -54,6 +70,11 @@ get '/genera' do
    haml :input
 end
 
+=begin
+   Una peticion post sobre genera, generará el código
+   JSON necesario, según los datos introducidos en el
+   tutorial.
+=end
 post '/genera' do
   #Generamos el JSON actores
   actorsJson = "{ \"actores\" : ["
@@ -106,9 +127,6 @@ post '/genera' do
    end
    midiJson << "]}"
    midiJson.gsub!(",]", ']')
-
    mactorJson = actorsJson + objectivesJson + maoJson + midiJson
    haml :service, :locals => {:fromHelper => mactorJson }
 end
-
-
