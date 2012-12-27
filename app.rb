@@ -10,6 +10,7 @@ mao = nil
 mid = nil
 
 get '/' do
+  haml :index
 end
 
 get '/service' do
@@ -23,7 +24,6 @@ post '/service' do
     actors = data["actores"]
     objectives = data["objetivos"]
 
-
     #obtenemos los actores desde el JSON
     actors.each do |a|
        data_list = []
@@ -32,7 +32,6 @@ post '/service' do
        end
        actors_list << Actor.new(*data_list)
     end
-
 
     #obtenemos los objetivos desde el JSON
     objectives.each do |o|
@@ -110,15 +109,6 @@ post '/genera' do
 
    mactorJson = actorsJson + objectivesJson + maoJson + midiJson
    haml :service, :locals => {:fromHelper => mactorJson }
-  
- 
 end
-post '/actores' do
-  prueba = params[:actors].clone
-  prueba.each_pair do |id, properties|
-    properties.each_pair do |prop, val|
-      puts "#{id}: #{prop} #{val}"
-    end
-  end
-end
+
 
