@@ -60,6 +60,14 @@ post '/service' do
     #obtenemos la matriz MAO
     mao = data["2MAO"]
     mid = data["MID"]
+
+    #aqui tratamos todas las operaciones
+    mactor = Mactor.new()
+    mactor.new_actor_list(actors_list)
+    mactor.new_objective_list(objectives_list)
+    mactor.new_2MAO(mao)
+    mactor.new_MID(mid)
+
     haml :service, :locals => {:msg => "Aqui te mostraria otros resultados!"}
   rescue  
     haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
@@ -88,7 +96,6 @@ post '/genera' do
   actorsJson << "],"
   actorsJson.gsub!(",}","}");
   actorsJson.gsub!("},]","}]");
-  puts actorsJson
 
   #Generamos el JSON objetivos
   objectivesJson = "\"objetivos\" : ["
@@ -102,7 +109,6 @@ post '/genera' do
   objectivesJson << "],"
   objectivesJson.gsub!(",}","}");
   objectivesJson.gsub!("},]","}]");
-  puts objectivesJson
 
   #Generamos el JSON 2MAO
   maoJson = "\"2MAO\" : ["
