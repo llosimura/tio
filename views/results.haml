@@ -1,0 +1,47 @@
+%h1 Results
+%dl.tabs
+  %dd.active
+    %a{:href => "#simple1"} MIDI
+  %dd
+    %a{:href => "#simple2"} IFV
+  %dd
+    %a{:href => "#simple3"} MMIDI
+  %dd
+    %a{:href => "#simple4"} IFMV
+  %dd
+    %a{:href => "#simple5"} 1MAO
+  %dd
+    %a{:href => "#simple6"} 3MAO
+  %dd
+    %a{:href => "#simple7"} 1CAA
+  %dd
+    %a{:href => "#simple8"} 2CAA
+  %dd
+    %a{:href => "#simple9"} 3CAA
+  %dd
+    %a{:href => "#simple10"} 1DAA
+  %dd
+    %a{:href => "#simple11"} 2DAA
+  %dd
+    %a{:href => "#simple12"} 3DAA
+  %dd
+    %a{:href => "#simple13"} AMBIVALENCE
+  %dd
+    %a{:href => "#simple14"} BNI
+%ul.tabs-content
+  %li.active#simple1Tab
+  %li#simple2Tab
+  %li#simple3Tab
+  %li#simple4Tab
+  %li#simple5Tab
+  %li#simple6Tab
+  %li#simple7Tab
+  %li#simple8Tab
+  %li#simple9Tab
+  %li#simple10Tab
+  %li#simple11Tab
+  %li#simple12Tab
+  %li#simple13Tab
+  %li#simple14Tab
+:javascript
+  $(document).foundationTabs();

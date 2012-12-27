@@ -68,7 +68,8 @@ post '/service' do
     mactor.new_2MAO(mao)
     mactor.new_MID(mid)
 
-    haml :service, :locals => {:msg => "Aqui te mostraria otros resultados!"}
+    #haml :service, :locals => {:msg => "Aqui te mostraria otros resultados!"}
+    haml :results
   rescue  
     haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
   end
