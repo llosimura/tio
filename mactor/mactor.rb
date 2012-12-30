@@ -517,7 +517,23 @@ class Mactor
     
     # Ambigüedades del actor
     def get_ambivalence()
-      return 0
+	  cols = 3
+	  rows = @actor_list.size
+	  amb = Array.new(rows) {Array.new(cols)}
+	  cols.times do |i|
+         caa = get_CAA(i+1)
+		 daa = get_DAA(i+1)
+         rows.times do |j|
+			sum_up = 0
+			sum_down= 0
+			rows.times do |k|
+				sum_up += ((caa[j][k]).abs - (daa[j][k]).abs).abs
+				sum_down += ((caa[j][k]).abs + (daa[j][k]).abs).abs
+			end
+			amb[j][i] = 1 - (sum_up/sum_down)
+         end 
+	  end		
+      return amb
     end
 
     def get_BNI()
