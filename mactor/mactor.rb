@@ -540,15 +540,19 @@ class Mactor
 	  cols = @actor_list.size
 	  rows = @actor_list.size
 	  midi = self.get_MIDI
-	  bni = Array.new(rows) {Array.new(cols)}
+	  bni = Array.new(rows) {Array.new(cols+1)}
 	  cols.times do |i|
+		aux = 0
 		rows.times do |j|
 			if (i == j)
 				bni[i][j] = "-"
 			else
 				bni[i][j] = midi[i][j]-midi[j][i]
+				aux += bni[i][j]
 			end
+			 
 		end
+		bni[i][cols+1] = aux
 	  end
       return bni
     end
