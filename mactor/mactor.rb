@@ -349,6 +349,26 @@ class Mactor
         end
         mmidi[i][i] = 0
       end
+	  # Cálculo de Di
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += mmidi[b][a]
+        end
+        mmidi[-1][a] = sum - mmidi[a][a]
+      end
+      # Cálculo de Ii
+      last = 0
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += mmidi[a][b]
+        end
+        mmidi[a][-1] = sum - mmidi[a][a]
+        last += mmidi[a][-1]
+      end
+	  # Cálculo del último valor
+      mmidi[-1][-1] = last
       return mmidi
     end
     
@@ -356,7 +376,21 @@ class Mactor
 =begin
       Informe de Fuerza Máxima bajo forma de Vector
 =end
-      return 0
+	  mmidi = self.get_MMIDI
+      ifmv = []
+      iterations = @actor_list.size
+      # Cálculo del vector sin normalizar
+      iterations.times do |a|
+        q =  (mmidi[a][-1] / mmidi[-1][-1].to_f ) * ( mmidi[a][-1] / (mmidi[a][-1] + mmidi[-1][a]).to_f )
+        ifmv << q
+      end
+      # Normalización del vector
+      sum_q = 0
+      ifmv.each { |a| sum_q += a}
+      ifmv = ifmv.map do |a|
+        (iterations * a) / sum_q.to_f      
+      end
+      return ifmv
     end
     
   # Apartado de relación entre actores y objetivos

@@ -85,6 +85,7 @@ moa = mao.transpose
 #print "3CAA: \n", mactor.get_3CAA, "\n"
 # 2DAA
 #print "3DAA: \n", mactor.get_3DAA, "\n"
-
-# BNI
-print "BNI: \n", mactor.get_BNI, "\n"
+# MMIDI - NO FUNCIONA
+print "MMIDI: \n" , mactor.get_MMIDI, "\n"
+# IMFV
+print "IFMV: \n", mactor.get_IFMV, "\n"
