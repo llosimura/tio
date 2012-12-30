@@ -537,6 +537,19 @@ class Mactor
     end
 
     def get_BNI()
-      return 0
+	  cols = @actor_list.size
+	  rows = @actor_list.size
+	  midi = self.get_MIDI
+	  bni = Array.new(rows) {Array.new(cols)}
+	  cols.times do |i|
+		rows.times do |j|
+			if (i == j)
+				bni[i][j] = "-"
+			else
+				bni[i][j] = midi[i][j]-midi[j][i]
+			end
+		end
+	  end
+      return bni
     end
 end

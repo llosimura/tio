@@ -86,5 +86,5 @@ moa = mao.transpose
 # 2DAA
 #print "3DAA: \n", mactor.get_3DAA, "\n"
 
-# AMB
-print "AMB: \n", mactor.get_ambivalence, "\n"
+# BNI
+print "BNI: \n", mactor.get_BNI, "\n"
