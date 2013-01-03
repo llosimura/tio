@@ -69,7 +69,7 @@ post '/service' do
     result_midi = mactor.get_MIDI()
     result_ifv = mactor.get_IFV()
     result_mmidi = mactor.get_MMIDI()
-    #- get_IFMV() *FALTA
+    result_ifmv =  mactor.get_IFMV()
     result_1mao = mactor.get_1MAO()
     result_3mao = mactor.get_3MAO()
     result_1caa = mactor.get_1CAA()
@@ -78,14 +78,15 @@ post '/service' do
     result_1daa = mactor.get_1DAA()
     result_2daa = mactor.get_2DAA()
     result_3daa = mactor.get_3DAA()
-    #- get_ambivalence() *FALTA
-    #- get_BNI() *FALTA
+    result_ambivalence = mactor.get_ambivalence()
+    result_bni = mactor.get_BNI()
 
     #haml :service, :locals => {:msg => "Aqui te mostraria otros resultados!"}
     haml :results, :locals => {
       :midi => result_midi,
       :ifv => result_ifv,
       :mmidi => result_mmidi,
+      :ifmv => result_ifmv,
       :one_mao => result_1mao,
       :three_mao => result_3mao,
       :one_caa => result_1caa,
@@ -94,6 +95,8 @@ post '/service' do
       :one_daa => result_1daa,
       :two_daa => result_2daa,
       :three_daa => result_3daa,
+      :ambivalence => result_ambivalence,
+      :bni => result_bni
     }
   #rescue  
    # haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
