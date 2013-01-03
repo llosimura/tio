@@ -1,0 +1,14 @@
+- filas = arr.length + 1
+- columnas = arr[0].length + 1
+%table.ten.columns.centered
+  - for i in 0...filas
+    %tr
+    -for j in 0...columnas
+      - if ((i == 0) && (j == 0))
+        %td 
+      -elsif (i == 0)
+        %td EQ[#{j}]
+      -elsif (j==0)
+        %td Act#{i} 
+      -else
+        %td #{arr[i-1][j-1].round(2)}
