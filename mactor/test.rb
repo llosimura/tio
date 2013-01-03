@@ -63,6 +63,7 @@ mao.size.times do |i|
         mao[i].delete_at(-1)
       end
 moa = mao.transpose
+
 #print "3MAO: \n", mao, "\n"
 # 2MAO
 #print "3MAO: \n", mactor.get_3MAO, "\n"
@@ -75,12 +76,16 @@ moa = mao.transpose
 # 1DAA
 #print "1DAA: \n", mactor.get_1DAA, "\n"
 # 2CAA
-print "2CAA: \n", mactor.get_2CAA, "\n"
+#print "2CAA: \n", mactor.get_2CAA, "\n"
 # 2DAA
 #print "2DAA: \n", mactor.get_2DAA, "\n"
 # 3MAO
 #print "3MAO: \n", mactor.get_3MAO, "\n"
 # 2CAA
-print "3CAA: \n", mactor.get_3CAA, "\n"
+#print "3CAA: \n", mactor.get_3CAA, "\n"
 # 2DAA
-print "3DAA: \n", mactor.get_3DAA, "\n"
+#print "3DAA: \n", mactor.get_3DAA, "\n"
+# MMIDI - NO FUNCIONA
+print "MMIDI: \n" , mactor.get_MMIDI, "\n"
+# IMFV
+print "IFMV: \n", mactor.get_IFMV, "\n"

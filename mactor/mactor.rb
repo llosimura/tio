@@ -349,6 +349,26 @@ class Mactor
         end
         mmidi[i][i] = 0
       end
+	  # Cálculo de Di
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += mmidi[b][a]
+        end
+        mmidi[-1][a] = sum - mmidi[a][a]
+      end
+      # Cálculo de Ii
+      last = 0
+      for a in 0..(iterations - 1) do
+        sum = 0
+        for b in 0..(iterations - 1) do
+          sum += mmidi[a][b]
+        end
+        mmidi[a][-1] = sum - mmidi[a][a]
+        last += mmidi[a][-1]
+      end
+	  # Cálculo del último valor
+      mmidi[-1][-1] = last
       return mmidi
     end
     
@@ -356,7 +376,21 @@ class Mactor
 =begin
       Informe de Fuerza Máxima bajo forma de Vector
 =end
-      return 0
+	  mmidi = self.get_MMIDI
+      ifmv = []
+      iterations = @actor_list.size
+      # Cálculo del vector sin normalizar
+      iterations.times do |a|
+        q =  (mmidi[a][-1] / mmidi[-1][-1].to_f ) * ( mmidi[a][-1] / (mmidi[a][-1] + mmidi[-1][a]).to_f )
+        ifmv << q
+      end
+      # Normalización del vector
+      sum_q = 0
+      ifmv.each { |a| sum_q += a}
+      ifmv = ifmv.map do |a|
+        (iterations * a) / sum_q.to_f      
+      end
+      return ifmv
     end
     
   # Apartado de relación entre actores y objetivos
@@ -517,10 +551,43 @@ class Mactor
     
     # Ambigüedades del actor
     def get_ambivalence()
-      return 0
+	  cols = 3
+	  rows = @actor_list.size
+	  amb = Array.new(rows) {Array.new(cols)}
+	  cols.times do |i|
+         caa = get_CAA(i+1)
+		 daa = get_DAA(i+1)
+         rows.times do |j|
+			sum_up = 0
+			sum_down= 0
+			rows.times do |k|
+				sum_up += ((caa[j][k]).abs - (daa[j][k]).abs).abs
+				sum_down += ((caa[j][k]).abs + (daa[j][k]).abs).abs
+			end
+			amb[j][i] = 1 - (sum_up/sum_down)
+         end 
+	  end		
+      return amb
     end
 
     def get_BNI()
-      return 0
+	  cols = @actor_list.size
+	  rows = @actor_list.size
+	  midi = self.get_MIDI
+	  bni = Array.new(rows) {Array.new(cols+1)}
+	  cols.times do |i|
+		aux = 0
+		rows.times do |j|
+			if (i == j)
+				bni[i][j] = "-"
+			else
+				bni[i][j] = midi[i][j]-midi[j][i]
+				aux += bni[i][j]
+			end
+			 
+		end
+		bni[i][cols+1] = aux
+	  end
+      return bni
     end
 end
