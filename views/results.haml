@@ -31,22 +31,22 @@
 %ul.tabs-content
   %li.active#simple1Tab
     .panel
-      = haml :matriz, :locals => {:arr => midi}
+      = haml :matriz, :locals => {:arr => midi, :modo => "midi"}   
   %li#simple2Tab
     .panel
-      %code #{ifv}   
+      = haml :vector, :locals => {:arr => ifv, :modo => "ifv"}
   %li#simple3Tab
     .panel
-      %code #{mmidi}   
+      = haml :matriz, :locals => {:arr => mmidi, :modo => "mmidi"}  
   %li#simple4Tab
     .panel
-      %code #{ifmv}   
+      = haml :vector, :locals => {:arr => ifmv, :modo => "ifmv"}
   %li#simple5Tab
     .panel
-      %code #{one_mao}   
+      = haml :matriz_avanzada, :locals => {:arr => one_mao, :modo => "mao1"}     
   %li#simple6Tab
     .panel
-      %code #{three_mao}   
+      = haml :matriz_avanzada, :locals => {:arr => three_mao, :modo => "mao3"}
   %li#simple7Tab
     .panel
       %code #{one_caa}   

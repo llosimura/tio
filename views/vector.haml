@@ -1,0 +1,10 @@
+- filas = arr.length
+- variable = {"ifv" => "Ri", "ifmv" => "Qi"}
+%table.ten.columns.centered
+  %tr
+    %td
+    %td #{variable[modo]}
+  - for i in 0...filas
+    %tr
+      %td Act#{i+1}
+      %td #{arr[i].round(2)}

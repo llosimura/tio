@@ -1,2 +1,21 @@
-#{arr}
-#{arr.length}
+- filas = arr.length + 1
+- columnas = arr[0].length + 1
+- variable = {"midi" => {:fila => "Li", :columna => "Di"}, "mmidi" => {:fila => "LMaxi", :columna => "DMaxi"}  }
+%table.ten.columns.centered
+  - for i in 0...filas
+    %tr
+    -for j in 0...columnas
+      - if ((i == 0) && (j == 0))
+        %td 
+      -elsif (i == 0)
+        -if (j == columnas -1)
+          %td #{variable[modo][:fila]}
+        -else
+          %td Act#{j}
+      -elsif (j==0)
+        -if (i == filas - 1)
+          %td #{variable[modo][:columna]}
+        -else
+          %td Act#{i} 
+      -else
+        %td #{arr[i-1][j-1]}
