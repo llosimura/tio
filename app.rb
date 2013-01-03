@@ -31,8 +31,6 @@ end
 post '/service' do
   actors_list =[]
   objectives_list =[]
-  mao = nil
-  mid = nil
   #begin  
     aux = params[:data].gsub(/(\w+)\s*:/, '"\1":')
     data = JSON.parse(aux)
@@ -152,7 +150,7 @@ post '/genera' do
   maoJson.gsub!(",]", ']')
    
    #Generamos el JSON midi
-   midiJson = "\"MIDI\" : ["
+   midiJson = "\"MID\" : ["
    params[:midi].each_pair do |i,v|
      midiJson << "["
      v.each_pair do |j, valor|
