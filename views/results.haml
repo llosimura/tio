@@ -49,27 +49,27 @@
       = haml :matriz_avanzada, :locals => {:arr => three_mao, :modo => "mao3"}
   %li#simple7Tab
     .panel
-      %code #{one_caa}   
+      = haml :oneaa, :locals => {:arr => one_caa, :modo => "convergencia"}
   %li#simple8Tab
     .panel
-      %code #{two_caa}   
+      = haml :twoaa, :locals => {:arr => two_caa, :modo => "convergencia"}
   %li#simple9Tab
     .panel
-      %code #{three_caa}   
+      = haml :twoaa, :locals => {:arr => three_caa, :modo => "convergencia"}
   %li#simple10Tab
     .panel
-      %code #{one_daa}   
+      = haml :oneaa, :locals => {:arr => one_daa, :modo => "divergencia"}   
   %li#simple11Tab
     .panel
-      %code #{two_daa}   
+      = haml :twoaa, :locals => {:arr => two_daa, :modo => "divergencia"}
   %li#simple12Tab
     .panel
-      %code #{three_daa}   
+      = haml :twoaa, :locals => {:arr => three_daa, :modo => "divergencia"}
   %li#simple13Tab
     .panel
-      %code #{ambivalence}   
+      = haml :ambivalencia, :locals => {:arr => ambivalence}
   %li#simple14Tab
     .panel
-      %code #{bni}  
+      = haml :bni, :locals => {:arr => bni}
 :javascript
   $(document).foundationTabs();

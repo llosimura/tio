@@ -1,0 +1,26 @@
+- filas = arr.length + 1
+- columnas = arr[0].length + 1
+- variable = {"convergencia" => {:columna1 => "Nº Convergencias", :columna2 => "Grado Convergencia"}, "divergencia" => {:columna1 => "Nº divergencias", :columna2 => "Grado Divergencia"}  }
+%table.ten.columns.centered
+  - for i in 0...filas -1
+    %tr
+    -for j in 0...columnas
+      - if ((i == 0) && (j == 0))
+        %td 
+      -elsif (i == 0)
+        %td Act#{j}
+      -elsif (j==0)
+        -if (i == filas - 2)
+          %td #{variable[modo][:columna1]}
+        -else
+          %td Act#{i} 
+      -else
+        -if arr[i-1][j-1].nil?
+          %td
+        -elsif arr[i-1][j-1].is_a? Float
+          %td #{arr[i-1][j-1].round(2)}
+        -else
+          %td #{arr[i-1][j-1]}
+  %tr
+    %td #{variable[modo][:columna2]}
+    %td #{arr[filas-2].round(2)}
