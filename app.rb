@@ -27,12 +27,23 @@ end
    Una petición post sobre service, evaluará el código y 
    nos permitirá aplicar los métodos incluidos en la clase
    mactor para procesar los datos y mostrar los resultados
+   si se recibe sobre :data vendrá de la web, sobre file,
+   vendrá de un fichero mediante curl o similar
+   Uso: curl -F "file=@json_example" localhost:9393/service
 =end
 post '/service' do
   actors_list =[]
   objectives_list =[]
-  #begin  
-    aux = params[:data].gsub(/(\w+)\s*:/, '"\1":')
+  begin 
+    aux = nil
+    file = false
+    if params.member?("file")
+      aux = params[:file][:tempfile].read
+      file = true
+    else
+      aux = params[:data]
+    end
+    aux = aux.gsub(/(\w+)\s*:/, '"\1":')
     data = JSON.parse(aux)
     actors = data["actores"]
     objectives = data["objetivos"]
@@ -80,7 +91,8 @@ post '/service' do
     result_bni = mactor.get_BNI()
 
     #haml :service, :locals => {:msg => "Aqui te mostraria otros resultados!"}
-    haml :results, :locals => {
+    if (!file)
+      haml :results, :locals => {
       :midi => result_midi,
       :ifv => result_ifv,
       :mmidi => result_mmidi,
@@ -96,9 +108,27 @@ post '/service' do
       :ambivalence => result_ambivalence,
       :bni => result_bni
     }
-  #rescue  
-   # haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
-  #end
+    else
+      sol = Hash.new
+      sol[:midi] = result_midi
+      sol[:ifv] = result_ifv
+      sol[:mmidi] = result_mmidi,
+      sol[:ifmv] = result_ifmv,
+      sol[:one_mao] = result_1mao,
+      sol[:three_mao] = result_3mao,
+      sol[:one_caa] = result_1caa,
+      sol[:two_caa] = result_2caa,
+      sol[:three_caa] = result_3caa,
+      sol[:one_daa] = result_1daa,
+      sol[:two_daa] = result_2daa,
+      sol[:three_daa] = result_3daa,
+      sol[:ambivalence] = result_ambivalence,
+      sol[:bni] = result_bni
+      output = JSON.generate(sol)
+    end
+  rescue  
+    haml :service, :locals => {:msg => "El JSON era incorrecto", :data => params[:data]}
+  end
 end
 
 get '/genera' do
