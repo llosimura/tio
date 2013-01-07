@@ -1,6 +1,7 @@
 # coding: utf-8
 require 'sinatra'
 require 'json'
+require 'haml'
 load 'mactor/utils.rb'
 load 'mactor/actor.rb'
 load 'mactor/objective.rb'
