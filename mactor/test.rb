@@ -47,13 +47,13 @@ mactor.new_MID(mid)
 # Testeo de metodos
 # MIDI
 
-#print "MIDI: \n", mactor.get_MIDI, "\n"
+print "MIDI: \n", mactor.get_MIDI, "\n"
 # IFV - NO FUNCIONA
-#print "IFV: \n", mactor.get_IFV, "\n"
+print "IFV: \n", mactor.get_IFV, "\n"
 # MMIDI - NO FUNCIONA
-#print "MMIDI: \n" , mactor.get_MMIDI, "\n"
+print "MMIDI: \n" , mactor.get_MMIDI, "\n"
 # IFMV - NO FUNCIONA
-#print "IFMV: \n" , mactor.get_IFMV, "\n"
+print "IFMV: \n" , mactor.get_IFMV, "\n"
 # 1MAO
 mao = mactor.get_1MAO
 3.times do

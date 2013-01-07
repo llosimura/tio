@@ -1,14 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-<<<<<<< HEAD
     json (1.7.5)
     rack (1.4.1)
-    rack-protection (1.3.2)
-=======
-    rack (1.4.1)
     rack-protection (1.3.1)
->>>>>>> c76ce1a10b7c567ac87a53bd595d4f9ba1bcb462
       rack
     sinatra (1.3.3)
       rack (~> 1.3, >= 1.3.6)
@@ -17,11 +12,9 @@ GEM
     tilt (1.3.3)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
-<<<<<<< HEAD
   json
-=======
->>>>>>> c76ce1a10b7c567ac87a53bd595d4f9ba1bcb462
   sinatra
